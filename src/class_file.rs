@@ -39,29 +39,78 @@ struct CodeAttribute {
     attributes: Vec<AttributeInfo>,
 }
 
-struct ClassFile {
+enum Constant {
+    Class {
+        name_index: u16
+    },
+    Fieldref {
+        class_index: u16,
+        name_and_type_index: u16
+    },
+    Methodref {
+        class_index: u16,
+        name_and_type_index: u16
+    },
+    InterfaceMethodref {
+        tag: u8,
+        class_index: u16,
+        name_and_type_index: u16
+    },
+    String {
+        string_index: u16
+    },
+    Integer(u32),
+    Float(f32),
+    Long(u64),
+    Double(f64),
+    NameAndType {
+        name_index: u16,
+        descriptor_index: u16
+    },
+    Utf8(String),
+    MethodHandle {
+        reference_kind: u8,
+        reference_index: u16
+    },
+    MethodType{
+        desciptor_index: u16
+    },
+    Dynamic {
+        bootstrap_method_attr_index: u16,
+        name_and_type_index: u16
+    },
+    InvokeDynamic {
+        bootstrap_method_attr_index: u16,
+        name_and_type_index: u16
+    },
+    Module,
+    Package
+}
+
+impl Constant {
+
+}
+
+struct ClassAccessFlags {
+    acc_public: bool,
+    acc_final: bool,
+    acc_super: bool,
+    acc_interface: bool,
+    acc_abstract: bool,
+    acc_synthetic: bool,
+    acc_annotation: bool,
+    acc_enum: bool,
+    acc_module: bool
+}
+
+struct Class {
     minor_version: u16,
     major_version: u16,
-    constant_pool: Vec<CpInfo>,
-    access_flags: u16,
+    constant_pool: Vec<Constant>,
+    access_flags: ClassAccessFlags,
     super_class: u16,
     interfaces: Vec<u16>,
     fields: Vec<FieldInfo>,
     methods: Vec<MethodInfo>,
     attributes: Vec<AttributeInfo>,
 }
-
-// struct StackMapTable {
-//     attribute_name_index: u16,
-//     attribute_length: u32,
-//     entries: Vec<StackMapFrame>,
-// }
-
-// #[repr(C)]
-// union StackMapFrame {
-//     same_frame: SameFrame,
-//     same_locals_1_stack_item_frame: SameLocals1StackItemFrame,
-//     same_locals_1_stack_item_frame_extended: SameLocals1StackItemFrameExtended,
-//     chop_frame: ChopFrame,
-//     same_frame_extended: SameFrameExtended
-// }

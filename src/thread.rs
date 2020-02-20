@@ -8,6 +8,6 @@ struct OperandStack {
 
 }
 
-struct Frame {
-    operand_stack:
-}
+// struct Frame {
+//     operand_stack:
+// }
