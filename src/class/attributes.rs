@@ -8,6 +8,9 @@ pub struct Attribute {
 
 impl Attribute {
     pub fn deserialize(reader: &mut Cursor<Vec<u8>>) -> Attribute {
-
+        Attribute {
+            attribute_name_index: 0,
+            info: Vec::new()
+        }
     }
 }
