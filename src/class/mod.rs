@@ -28,14 +28,14 @@ struct Field {
 
 impl Field {
     fn deserialize(reader: &mut Cursor<Vec<u8>>) -> Field {
-        let access_flags = FieldAccessFlags::from_bits_unchecked(reader.read_u16::<BigEndian>().unwrap());
+        let access_flags = FieldAccessFlags::from_bits_truncate(reader.read_u16::<BigEndian>().unwrap());
         let name_index = reader.read_u16::<BigEndian>().unwrap();
         let desciptor_index = reader.read_u16::<BigEndian>().unwrap();
         
         let attributes_count = reader.read_u16::<BigEndian>().unwrap();
-        let attributes = Vec::new();
+        let mut attributes = Vec::new();
         for _ in 0..attributes_count {
-            attributes.push(Attribute::deserialize(&mut reader));
+            attributes.push(Attribute::deserialize(reader));
         }
 
         Field {
@@ -71,14 +71,14 @@ struct Method {
 
 impl Method {
     fn deserialize(reader: &mut Cursor<Vec<u8>>) -> Method {
-        let access_flags = MethodAccessFlags::from_bits_unchecked(reader.read_u16::<BigEndian>().unwrap());
+        let access_flags = MethodAccessFlags::from_bits_truncate(reader.read_u16::<BigEndian>().unwrap());
         let name_index = reader.read_u16::<BigEndian>().unwrap();
         let desciptor_index = reader.read_u16::<BigEndian>().unwrap();
         
         let attributes_count = reader.read_u16::<BigEndian>().unwrap();
-        let attributes = Vec::new();
+        let mut attributes = Vec::new();
         for _ in 0..attributes_count {
-            attributes.push(Attribute::deserialize(&mut reader));
+            attributes.push(Attribute::deserialize(reader));
         }
 
         Method {
@@ -154,7 +154,7 @@ impl Constant {
         match tag {
             1 => {
                 let length = reader.read_u16::<BigEndian>().unwrap();
-                let buf = vec![0u8; length as usize];
+                let mut buf = vec![0u8; length as usize];
                 reader.read_exact(buf.as_mut_slice());
                 Utf8(str::from_utf8(buf.as_slice()).unwrap().to_string())
             },
@@ -266,35 +266,35 @@ impl Class {
         let major_version = reader.read_u16::<BigEndian>().unwrap();
 
         let constant_pool_count = reader.read_u16::<BigEndian>().unwrap();
-        let constant_pool = Vec::new();
+        let mut constant_pool = Vec::new();
         for _ in 0..constant_pool_count {
             constant_pool.push(Constant::deserialize(&mut reader));
         }
 
-        let access_flags = ClassAccessFlags::from_bits_unchecked(reader.read_u16::<BigEndian>().unwrap());
+        let access_flags = ClassAccessFlags::from_bits_truncate(reader.read_u16::<BigEndian>().unwrap());
         let this_class = reader.read_u16::<BigEndian>().unwrap();
         let super_class = reader.read_u16::<BigEndian>().unwrap();
 
         let interface_count = reader.read_u16::<BigEndian>().unwrap();
-        let interfaces = Vec::new();
+        let mut interfaces = Vec::new();
         for _ in 0..interface_count {
             interfaces.push(reader.read_u16::<BigEndian>().unwrap());
         }
 
         let fields_count = reader.read_u16::<BigEndian>().unwrap();
-        let fields = Vec::new();
+        let mut fields = Vec::new();
         for _ in 0..fields_count {
             fields.push(Field::deserialize(&mut reader));
         }
 
         let methods_count = reader.read_u16::<BigEndian>().unwrap();
-        let methods = Vec::new();
+        let mut methods = Vec::new();
         for _ in 0..fields_count {
             methods.push(Method::deserialize(&mut reader));
         }
 
         let attributes_count = reader.read_u16::<BigEndian>().unwrap();
-        let attributes = Vec::new();
+        let mut attributes = Vec::new();
         for _ in 0..fields_count {
             attributes.push(Attribute::deserialize(&mut reader));
         }
