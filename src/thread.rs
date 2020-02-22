@@ -1,12 +1,6 @@
+struct Thread {}
 
-
-struct Thread {
-    
-}
-
-struct OperandStack {
-
-}
+struct OperandStack {}
 
 // struct Frame {
 //     operand_stack:
