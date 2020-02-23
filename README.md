@@ -1,6 +1,6 @@
 # rjvm [![Build Status](https://travis-ci.com/StackDoubleFlow/rjvm.svg?token=w2Qd2PZXZDMXJBYfVgvu&branch=master)](https://travis-ci.com/StackDoubleFlow/rjvm) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A work-in-progress jvm written completely in rust.
+A work-in-progress Java virtual machine written completely in rust.
 
 ## Installation
 
