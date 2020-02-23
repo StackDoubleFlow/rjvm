@@ -254,7 +254,7 @@ impl Class {
 
         let constant_pool_count = reader.read_u16::<BigEndian>().unwrap();
         let mut constant_pool = Vec::new();
-        for _ in 0..constant_pool_count {
+        for _ in 0..(constant_pool_count - 1) {
             constant_pool.push(Constant::deserialize(&mut reader));
         }
 
