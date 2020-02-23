@@ -1,6 +1,7 @@
 use byteorder::{BigEndian, ReadBytesExt};
 use std::io::Cursor;
 
+#[derive(Debug)]
 pub struct Attribute {
     attribute_name_index: u16,
     info: Vec<u8>,

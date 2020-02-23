@@ -19,6 +19,7 @@ bitflags! {
     }
 }
 
+#[derive(Debug)]
 struct Field {
     access_flags: FieldAccessFlags,
     name_index: u16,
@@ -65,6 +66,7 @@ bitflags! {
     }
 }
 
+#[derive(Debug)]
 struct Method {
     access_flags: MethodAccessFlags,
     name_index: u16,
@@ -101,6 +103,7 @@ struct ExceptionTable {
     catch_type: u16,
 }
 
+#[derive(Debug)]
 enum Constant {
     Class {
         name_index: u16,
@@ -227,7 +230,8 @@ bitflags! {
     }
 }
 
-struct Class {
+#[derive(Debug)]
+pub struct Class {
     minor_version: u16,
     major_version: u16,
     constant_pool: Vec<Constant>,
@@ -241,7 +245,7 @@ struct Class {
 }
 
 impl Class {
-    fn deserialize(vec: Vec<u8>) -> Class {
+    pub fn deserialize(vec: Vec<u8>) -> Class {
         let mut reader = Cursor::new(vec);
         let magic = reader.read_u32::<BigEndian>().unwrap();
         assert!(magic == 0xCAFEBABE);
