@@ -6,13 +6,15 @@ A work-in-progress jvm written completely in rust.
 
 As there are currently no releases, you must build from source.
 
+If rust is not already installed, you can find out how [on their offcial website](https://www.rust-lang.org/tools/install).
+
 ```shell
 git clone https://github.com/StackDoubleFlow/rjvm.git
 cd rjvm
 cargo build --release
 ```
 
-Once complete, the binary will be located at `./target/release/rjvm`
+Once complete, the binary will be located at `./target/release/rjvm` or `./target/release/rjvm.exe` depending on your os.
 
 ## Usage
 
