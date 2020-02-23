@@ -277,13 +277,13 @@ impl Class {
 
         let methods_count = reader.read_u16::<BigEndian>().unwrap();
         let mut methods = Vec::new();
-        for _ in 0..fields_count {
+        for _ in 0..methods_count {
             methods.push(Method::deserialize(&mut reader));
         }
 
         let attributes_count = reader.read_u16::<BigEndian>().unwrap();
         let mut attributes = Vec::new();
-        for _ in 0..fields_count {
+        for _ in 0..attributes_count {
             attributes.push(Attribute::deserialize(&mut reader));
         }
 
