@@ -253,7 +253,7 @@ impl Class {
         let major_version = reader.read_u16::<BigEndian>().unwrap();
 
         let constant_pool_count = reader.read_u16::<BigEndian>().unwrap();
-        let mut constant_pool = Vec::new();
+        let mut constant_pool = Vec::with_capacity(constant_pool_count as usize - 1);
         for _ in 0..(constant_pool_count - 1) {
             constant_pool.push(Constant::deserialize(&mut reader));
         }
@@ -264,25 +264,25 @@ impl Class {
         let super_class = reader.read_u16::<BigEndian>().unwrap();
 
         let interface_count = reader.read_u16::<BigEndian>().unwrap();
-        let mut interfaces = Vec::new();
+        let mut interfaces = Vec::with_capacity(interface_count as usize);
         for _ in 0..interface_count {
             interfaces.push(reader.read_u16::<BigEndian>().unwrap());
         }
 
         let fields_count = reader.read_u16::<BigEndian>().unwrap();
-        let mut fields = Vec::new();
+        let mut fields = Vec::with_capacity(fields_count as usize);
         for _ in 0..fields_count {
             fields.push(Field::deserialize(&mut reader));
         }
 
         let methods_count = reader.read_u16::<BigEndian>().unwrap();
-        let mut methods = Vec::new();
+        let mut methods = Vec::with_capacity(methods_count as usize);
         for _ in 0..methods_count {
             methods.push(Method::deserialize(&mut reader));
         }
 
         let attributes_count = reader.read_u16::<BigEndian>().unwrap();
-        let mut attributes = Vec::new();
+        let mut attributes = Vec::with_capacity(attributes_count as usize);
         for _ in 0..attributes_count {
             attributes.push(Attribute::deserialize(&mut reader));
         }
