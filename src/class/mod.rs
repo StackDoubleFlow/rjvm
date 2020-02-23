@@ -1,4 +1,4 @@
-use attributes::Attribute;
+use attributes::AttributeInfo;
 use byteorder::{BigEndian, ReadBytesExt};
 use std::io::{Cursor, Read};
 use std::str;
@@ -24,7 +24,7 @@ struct Field {
     access_flags: FieldAccessFlags,
     name_index: u16,
     desciptor_index: u16,
-    attributes: Vec<Attribute>,
+    attributes: Vec<AttributeInfo>,
 }
 
 impl Field {
@@ -37,7 +37,7 @@ impl Field {
         let attributes_count = reader.read_u16::<BigEndian>().unwrap();
         let mut attributes = Vec::new();
         for _ in 0..attributes_count {
-            attributes.push(Attribute::deserialize(reader));
+            attributes.push(AttributeInfo::deserialize(reader));
         }
 
         Field {
@@ -71,7 +71,7 @@ struct Method {
     access_flags: MethodAccessFlags,
     name_index: u16,
     desciptor_index: u16,
-    attributes: Vec<Attribute>,
+    attributes: Vec<AttributeInfo>,
 }
 
 impl Method {
@@ -84,7 +84,7 @@ impl Method {
         let attributes_count = reader.read_u16::<BigEndian>().unwrap();
         let mut attributes = Vec::new();
         for _ in 0..attributes_count {
-            attributes.push(Attribute::deserialize(reader));
+            attributes.push(AttributeInfo::deserialize(reader));
         }
 
         Method {
@@ -241,7 +241,7 @@ pub struct Class {
     interfaces: Vec<u16>,
     fields: Vec<Field>,
     methods: Vec<Method>,
-    attributes: Vec<Attribute>,
+    attributes: Vec<AttributeInfo>,
 }
 
 impl Class {
@@ -284,7 +284,7 @@ impl Class {
         let attributes_count = reader.read_u16::<BigEndian>().unwrap();
         let mut attributes = Vec::with_capacity(attributes_count as usize);
         for _ in 0..attributes_count {
-            attributes.push(Attribute::deserialize(&mut reader));
+            attributes.push(AttributeInfo::deserialize(&mut reader));
         }
 
         Class {
