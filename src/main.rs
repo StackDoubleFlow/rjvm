@@ -25,13 +25,16 @@ struct Opts {
 }
 
 fn main() {
-    setup_panic!();
+    //setup_panic!();
     let opts = Opts::from_args();
 
     run(opts.initial_class);
 }
 
-fn run(initial_class: PathBuf) {}
+fn run(initial_class: PathBuf) {
+    let mut storage = storage_manager::Storage::new();
+    storage.create_class(initial_class.to_str().unwrap());
+}
 
 #[test]
 fn test() {

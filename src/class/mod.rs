@@ -313,7 +313,7 @@ impl Class {
     }
 }
 
-struct ClassLoadingConstraints {}
+pub struct ClassLoadingConstraints {}
 
 impl ClassLoadingConstraints {
     fn none() -> ClassLoadingConstraints {
@@ -336,7 +336,7 @@ pub struct BootstrapClassLoader {
 }
 
 impl BootstrapClassLoader {
-    fn get_record_exists(&self, name: &String) -> bool {
+    fn get_record_exists(&self, name: &str) -> bool {
         self.record.iter().any(|r| r.name == *name)
     }
 
@@ -344,16 +344,16 @@ impl BootstrapClassLoader {
         BootstrapClassLoader { record: Vec::new() }
     }
 
-    pub fn load_class(&mut self, name: String) -> Class {
+    pub fn load_class(&mut self, name: &str) -> Class {
         self.load_class_with_constraints(name, ClassLoadingConstraints::none())
     }
 
     pub fn load_class_with_constraints(
         &mut self,
-        name: String,
-        constraints: ClassLoadingConstraints,
+        name: &str,
+        _constraints: ClassLoadingConstraints,
     ) -> Class {
-        if self.get_record_exists(&name) {
+        if self.get_record_exists(name) {
             panic!("LinkageError")
         }
 
@@ -362,7 +362,7 @@ impl BootstrapClassLoader {
 
         self.record.push(ClassLoaderRecordEntry {
             r#type: ClassLoaderRecordType::Defining,
-            name,
+            name: name.to_owned(),
         });
 
         class_file

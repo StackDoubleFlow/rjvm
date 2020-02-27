@@ -4,9 +4,23 @@ use std::collections::HashMap;
 // How the openjdk does it:
 // http://openjdk.java.net/groups/hotspot/docs/StorageManagement.html
 
-struct Storage {
+pub struct Storage {
     method_area: MethodArea,
     heap: Heap,
+}
+
+impl Storage {
+    pub fn new() -> Storage {
+        Storage {
+            method_area: MethodArea::new(),
+            heap: Heap::new()
+        }
+    }
+
+    pub fn create_class(&mut self, name: &str) {
+        self.method_area.classes
+            .insert(name.to_owned(), self.method_area.bootstrap_class_loader.load_class(name));
+    }
 }
 
 struct MethodArea {
@@ -21,13 +35,13 @@ impl MethodArea {
             classes: HashMap::new(),
         }
     }
-
-    fn create_class(&mut self, name: String) {
-        self.classes
-            .insert(name.clone(), self.bootstrap_class_loader.load_class(name));
-    }
 }
 
 struct Heap {}
 
-impl Heap {}
+impl Heap {
+
+    fn new() -> Heap {
+        Heap {}
+    }
+}
