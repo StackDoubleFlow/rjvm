@@ -104,7 +104,7 @@ struct ExceptionTable {
 }
 
 #[derive(Debug)]
-enum Constant {
+pub enum Constant {
     Class {
         name_index: u16,
     },
@@ -246,9 +246,13 @@ pub struct Class {
 
 impl Class {
     pub fn deserialize(vec: Vec<u8>) -> Class {
+        // TODO: Handle ClassFormatError
+
         let mut reader = Cursor::new(vec);
         let magic = reader.read_u32::<BigEndian>().unwrap();
         assert!(magic == 0xCAFEBABE);
+
+        // TODO: Handle UnsupportedClassVersionError
         let minor_version = reader.read_u16::<BigEndian>().unwrap();
         let major_version = reader.read_u16::<BigEndian>().unwrap();
 
@@ -299,5 +303,49 @@ impl Class {
             methods,
             attributes,
         }
+    }
+
+    pub fn verify(&self) {
+        // TODO: Verify class
+    }
+}
+
+struct ClassLoadingConstraints {}
+
+enum ClassLoaderRecordType {
+    Initiating,
+    Defining,
+}
+
+struct ClassLoaderRecordEntry {
+    r#type: ClassLoaderRecordType,
+    name: String,
+}
+
+struct BootstrapClassLoader {
+    record: Vec<ClassLoaderRecordEntry>,
+}
+
+impl BootstrapClassLoader {
+    fn get_record_exists(&self, name: &String) -> bool {
+        self.record.iter().any(|r| r.name == *name)
+    }
+
+    pub fn load_class(&mut self, name: String) {
+        if self.get_record_exists(&name) { panic!("LinkageError") }
+
+        self.record.push(ClassLoaderRecordEntry {
+            r#type: ClassLoaderRecordType::Defining,
+            name
+        });
+    }
+
+    pub fn load_class_with_constraints(&mut self, name: String, constraints: ClassLoadingConstraints) {
+        if self.get_record_exists(&name) { panic!("LinkageError") }
+
+        self.record.push(ClassLoaderRecordEntry {
+            r#type: ClassLoaderRecordType::Defining,
+            name
+        });
     }
 }
