@@ -250,11 +250,12 @@ impl Class {
 
         let mut reader = Cursor::new(vec);
         let magic = reader.read_u32::<BigEndian>().unwrap();
-        assert!(magic == 0xCAFEBABE);
+        assert!(magic == 0xCAFEBABE, "ClassFormatError");
 
         // TODO: Handle UnsupportedClassVersionError
         let minor_version = reader.read_u16::<BigEndian>().unwrap();
         let major_version = reader.read_u16::<BigEndian>().unwrap();
+        if major_version > 57 || minor_version > 0 { panic!("UnsupportedClassVersionError") }
 
         let constant_pool_count = reader.read_u16::<BigEndian>().unwrap();
         let mut constant_pool = Vec::with_capacity(constant_pool_count as usize - 1);
