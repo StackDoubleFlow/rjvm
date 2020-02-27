@@ -12,12 +12,16 @@ use std::path::PathBuf;
 use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
-#[structopt(name = "rjvm", version = "0.1.0", author = "StackDoubleFlow <ojaslandge@gmail.com>", about = "A Java virtual machine completely written in rust.")]
+#[structopt(
+    name = "rjvm",
+    version = "0.1.0",
+    author = "StackDoubleFlow <ojaslandge@gmail.com>",
+    about = "A Java virtual machine completely written in rust."
+)]
 struct Opts {
-
     /// Path to the main class file
     #[structopt(parse(from_os_str))]
-    class_file: PathBuf
+    class_file: PathBuf,
 }
 
 fn main() {

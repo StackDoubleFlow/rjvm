@@ -9,12 +9,8 @@ enum VerificationType {
     Double,
     Null,
     UninitializedThis,
-    Object {
-        cpool_index: u16
-    },
-    Uninitialized {
-        offset: u16
-    }
+    Object { cpool_index: u16 },
+    Uninitialized { offset: u16 },
 }
 
 enum StackMapFrame {
@@ -24,7 +20,7 @@ enum StackMapFrame {
     Chop,
     SameExtended,
     Append,
-    Full
+    Full,
 }
 
 #[derive(Debug)]
@@ -58,7 +54,6 @@ impl Exception {
             end_pc: reader.read_u16::<BigEndian>().unwrap(),
             handler_pc: reader.read_u16::<BigEndian>().unwrap(),
             catch_type: reader.read_u16::<BigEndian>().unwrap(),
-            
         }
     }
 }
@@ -68,13 +63,13 @@ trait Attribute {
 }
 
 struct ConstantValueAttribute {
-    index: u16
+    index: u16,
 }
 
 impl Attribute for ConstantValueAttribute {
     fn deserialize(data: Vec<u8>) -> Self {
         ConstantValueAttribute {
-            index: Cursor::new(data).read_u16::<BigEndian>().unwrap()
+            index: Cursor::new(data).read_u16::<BigEndian>().unwrap(),
         }
     }
 }
@@ -84,7 +79,7 @@ struct CodeAttribute {
     max_locals: u16,
     code: Vec<u8>,
     exception_table: Vec<Exception>,
-    attributes: Vec<AttributeInfo>
+    attributes: Vec<AttributeInfo>,
 }
 
 impl Attribute for CodeAttribute {
@@ -111,9 +106,11 @@ impl Attribute for CodeAttribute {
         }
 
         CodeAttribute {
-            max_stack, max_locals,
-            code, exception_table,
-            attributes
+            max_stack,
+            max_locals,
+            code,
+            exception_table,
+            attributes,
         }
     }
 }
