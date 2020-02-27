@@ -13,13 +13,15 @@ impl Storage {
     pub fn new() -> Storage {
         Storage {
             method_area: MethodArea::new(),
-            heap: Heap::new()
+            heap: Heap::new(),
         }
     }
 
     pub fn create_class(&mut self, name: &str) {
-        self.method_area.classes
-            .insert(name.to_owned(), self.method_area.bootstrap_class_loader.load_class(name));
+        self.method_area.classes.insert(
+            name.to_owned(),
+            self.method_area.bootstrap_class_loader.load_class(name),
+        );
     }
 }
 
@@ -40,7 +42,6 @@ impl MethodArea {
 struct Heap {}
 
 impl Heap {
-
     fn new() -> Heap {
         Heap {}
     }
