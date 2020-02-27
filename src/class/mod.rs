@@ -345,7 +345,7 @@ impl BootstrapClassLoader {
     pub fn load_class_with_constraints(&mut self, name: String, constraints: ClassLoadingConstraints) {
         if self.get_record_exists(&name) { panic!("LinkageError") }
 
-        let data = std::fs::read(name.to_owned() + ".class").unwrap();
+        let data = std::fs::read(name.to_owned() + ".class").expect("ClassNotFoundException");
         let class_file = Class::deserialize(data);
 
 
