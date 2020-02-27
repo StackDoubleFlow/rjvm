@@ -31,9 +31,7 @@ fn main() {
     run(opts.class_file);
 }
 
-fn run(class_file_path: PathBuf) {
-
-}
+fn run(class_file_path: PathBuf) {}
 
 #[test]
 fn test() {

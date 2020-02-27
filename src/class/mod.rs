@@ -255,7 +255,9 @@ impl Class {
         // TODO: Handle UnsupportedClassVersionError
         let minor_version = reader.read_u16::<BigEndian>().unwrap();
         let major_version = reader.read_u16::<BigEndian>().unwrap();
-        if major_version > 57 || minor_version > 0 { panic!("UnsupportedClassVersionError") }
+        if major_version > 57 || minor_version > 0 {
+            panic!("UnsupportedClassVersionError")
+        }
 
         let constant_pool_count = reader.read_u16::<BigEndian>().unwrap();
         let mut constant_pool = Vec::with_capacity(constant_pool_count as usize - 1);
@@ -329,7 +331,7 @@ struct ClassLoaderRecordEntry {
     name: String,
 }
 
-struct BootstrapClassLoader {
+pub struct BootstrapClassLoader {
     record: Vec<ClassLoaderRecordEntry>,
 }
 
@@ -338,21 +340,31 @@ impl BootstrapClassLoader {
         self.record.iter().any(|r| r.name == *name)
     }
 
-    pub fn load_class(&mut self, name: String) {
-        self.load_class_with_constraints(name, ClassLoadingConstraints::none());
+    pub fn new() -> BootstrapClassLoader {
+        BootstrapClassLoader { record: Vec::new() }
     }
 
-    pub fn load_class_with_constraints(&mut self, name: String, constraints: ClassLoadingConstraints) {
-        if self.get_record_exists(&name) { panic!("LinkageError") }
+    pub fn load_class(&mut self, name: String) -> Class {
+        self.load_class_with_constraints(name, ClassLoadingConstraints::none())
+    }
+
+    pub fn load_class_with_constraints(
+        &mut self,
+        name: String,
+        constraints: ClassLoadingConstraints,
+    ) -> Class {
+        if self.get_record_exists(&name) {
+            panic!("LinkageError")
+        }
 
         let data = std::fs::read(name.to_owned() + ".class").expect("ClassNotFoundException");
         let class_file = Class::deserialize(data);
 
-
-
         self.record.push(ClassLoaderRecordEntry {
             r#type: ClassLoaderRecordType::Defining,
-            name
+            name,
         });
+
+        class_file
     }
 }
