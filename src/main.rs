@@ -27,8 +27,12 @@ struct Opts {
 fn main() {
     setup_panic!();
     let opts = Opts::from_args();
-    let data = std::fs::read(opts.class_file).unwrap();
-    println!("{:#?}", class::Class::deserialize(data));
+
+    run(opts.class_file);
+}
+
+fn run(class_file_path: PathBuf) {
+
 }
 
 #[test]

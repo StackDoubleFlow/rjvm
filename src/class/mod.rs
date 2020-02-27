@@ -313,6 +313,12 @@ impl Class {
 
 struct ClassLoadingConstraints {}
 
+impl ClassLoadingConstraints {
+    fn none() -> ClassLoadingConstraints {
+        ClassLoadingConstraints {}
+    }
+}
+
 enum ClassLoaderRecordType {
     Initiating,
     Defining,
@@ -333,16 +339,16 @@ impl BootstrapClassLoader {
     }
 
     pub fn load_class(&mut self, name: String) {
-        if self.get_record_exists(&name) { panic!("LinkageError") }
-
-        self.record.push(ClassLoaderRecordEntry {
-            r#type: ClassLoaderRecordType::Defining,
-            name
-        });
+        self.load_class_with_constraints(name, ClassLoadingConstraints::none());
     }
 
     pub fn load_class_with_constraints(&mut self, name: String, constraints: ClassLoadingConstraints) {
         if self.get_record_exists(&name) { panic!("LinkageError") }
+
+        let data = std::fs::read(name.to_owned() + ".class").unwrap();
+        let class_file = Class::deserialize(data);
+
+
 
         self.record.push(ClassLoaderRecordEntry {
             r#type: ClassLoaderRecordType::Defining,

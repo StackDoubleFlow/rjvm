@@ -1,7 +1,11 @@
-struct Thread {}
+use crate::class::Constant;
 
-struct OperandStack {}
+struct Thread {
+    pc: usize,
+}
 
-// struct Frame {
-//     operand_stack:
-// }
+struct Frame<'a> {
+    // TODO: Local variables
+    operand_stack: Vec<u8>,
+    runtime_constant_pool: &'a Vec<Constant>,
+}
