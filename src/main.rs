@@ -21,17 +21,17 @@ use structopt::StructOpt;
 struct Opts {
     /// Path to the main class file
     #[structopt(parse(from_os_str))]
-    class_file: PathBuf,
+    initial_class: PathBuf,
 }
 
 fn main() {
     setup_panic!();
     let opts = Opts::from_args();
 
-    run(opts.class_file);
+    run(opts.initial_class);
 }
 
-fn run(class_file_path: PathBuf) {}
+fn run(initial_class: PathBuf) {}
 
 #[test]
 fn test() {
