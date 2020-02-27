@@ -6,7 +6,7 @@ A work-in-progress Java virtual machine written completely in rust.
 
 As there are currently no releases, you must build from source.
 
-If rust is not already installed, you can find out how [on their offcial website](https://www.rust-lang.org/tools/install).
+If rust is not already installed, you can find out how [on their official website](https://www.rust-lang.org/tools/install).
 
 ```shell
 git clone https://github.com/StackDoubleFlow/rjvm.git
