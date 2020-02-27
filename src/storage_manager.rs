@@ -22,6 +22,7 @@ impl Storage {
             name.to_owned(),
             self.method_area.bootstrap_class_loader.load_class(name),
         );
+        println!("{:#?}", self.method_area.classes);
     }
 }
 
@@ -42,6 +43,7 @@ impl MethodArea {
 struct Heap {}
 
 impl Heap {
+
     fn new() -> Heap {
         Heap {}
     }
