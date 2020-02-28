@@ -1,4 +1,5 @@
 mod class;
+mod jarfile;
 mod storage_manager;
 mod thread;
 

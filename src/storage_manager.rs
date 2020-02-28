@@ -19,7 +19,7 @@ impl Storage {
 
     pub fn create_class(&mut self, name: &str) {
         let class = self.method_area.bootstrap_class_loader.load_class(name);
-        
+
         self.method_area.classes.insert(name.to_owned(), class);
         println!("{:#?}", self.method_area.classes);
     }
