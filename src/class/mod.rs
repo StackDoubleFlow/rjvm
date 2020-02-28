@@ -254,7 +254,7 @@ impl Class {
 
         let mut reader = Cursor::new(vec);
         let magic = reader.read_u32::<BigEndian>().unwrap();
-        assert!(magic == 0xCAFEBABE, "ClassFormatError");
+        assert!(magic == 0xCAFE_BABE, "ClassFormatError");
 
         // TODO: Handle UnsupportedClassVersionError
         let minor_version = reader.read_u16::<BigEndian>().unwrap();
