@@ -24,6 +24,13 @@ impl Storage {
         );
         println!("{:#?}", self.method_area.classes);
     }
+
+    pub fn resolve_class(&mut self, name: &str) -> &Class {
+        if !self.method_area.classes.contains_key(name) {
+            self.create_class(name);
+        }
+        self.method_area.classes.get(name).unwrap()
+    }
 }
 
 struct MethodArea {
