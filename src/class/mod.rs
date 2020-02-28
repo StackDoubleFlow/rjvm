@@ -190,7 +190,7 @@ impl Constant {
             },
             12 => NameAndType {
                 name_index: reader.read_u16::<BigEndian>().unwrap(),
-                descriptor_index: reader.read_u16::<BigEndian>().unwrap()
+                descriptor_index: reader.read_u16::<BigEndian>().unwrap(),
             },
             15 => MethodHandle {
                 reference_kind: reader.read_u8().unwrap(),
