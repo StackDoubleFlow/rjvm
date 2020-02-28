@@ -14,7 +14,7 @@ cd rjvm
 cargo build --release
 ```
 
-Once complete, the binary will be located at `./target/release/rjvm` or `./target/release/rjvm.exe` depending on your os.
+Once complete, the optimized executable will be located at `./target/release/rjvm` or `./target/release/rjvm.exe` depending on your os.
 
 ## Usage
 
